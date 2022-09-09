@@ -9,6 +9,11 @@ app = Dash(__name__)
 # assume you have a "long-form" data frame
 # see https://plotly.com/python/px-arguments/ for more options
 
+colors = {
+    "background" : "#A9B4C2",
+    "text" : "#3C3E3C"
+}
+
 
 df = pd.read_csv("logs/my04_wrx_stock_3rd_1.csv")
 df_rpm = df['Engine Speed (rpm)']
@@ -89,8 +94,15 @@ app.layout = html.Div(children=[
 
     dcc.Graph(id='log',
     figure=fig,
-    style={'width': '100vw', 'height': '90vh'})
-])
+    style={'width': '95vw', 
+           'height': '90vh',
+           'margin-left':'auto',
+           'margin-right':'auto',
+           'margin-top': 50,
+           'margin-bottom':50}),
+    html.Hr(),
+    html.Div(children=[html.Div(children='Here is some info about your log.')])
+], style={'backgroundColor':colors['background']})
 
 if __name__ == '__main__':
     app.run_server(debug=True)
