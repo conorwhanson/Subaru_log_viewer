@@ -1,4 +1,5 @@
 import base64
+from importlib.resources import contents
 import io
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
@@ -12,37 +13,70 @@ import pandas as pd
 app = dash.Dash(__name__)
 server = app.server
 
-app.layout = html.Div(
-    [
-        dcc.Upload(
-            id="upload-data",
-            children=html.Div(["Click here to upload CSV file."]),
-            style={
-                "width": "100%",
-                "height": "60px",
-                "lineHeight": "60px",
-                "borderWidth": "1px",
-                "borderStyle": "dashed",
-                "borderRadius": "5px",
-                "textAlign": "center",
-                "margin": "10px",
-            },
-            # Allow multiple files to be uploaded
-            multiple=False,
-        ),
-        html.Div(["RomRaider log viewer"]),
-        dcc.Graph(id="Mygraph",
-        style={'width': '100vw', 'height': '90vh'})
-        # html.Div(id="output-data-upload")
-    ])
+colors = {
+    "background" : "#A9B4C2",
+    "text" : "#3C3E3C"
+}
+
+app.layout = html.Div([
+                html.Div([
+                    html.Img(src="assets/rom_table.png" 
+                    
+                            )],style={
+                                "width":"100%", 
+                                "height":"50%",
+                                "margin":"8px",
+                                "textAlign":"center"
+                                    }),
+
+                html.Div([
+                    dcc.Upload(
+                    id="upload-data",
+                    children=html.Div(['Drag and drop or ', html.Strong('select'), ' a log file to graph.']),
+                    style={
+                        "width": "100%",
+                        "height": "60px",
+                        "lineHeight": "60px",
+                        "borderWidth": "2px",
+                        "borderStyle": "dashed",
+                        "textAlign":"center",
+                        "borderRadius": "5px",
+                        "margin": "8px",
+                        },
+
+                    # Don't allow multiple files to be uploaded
+                    multiple=False,
+                    )]
+                ),
+
+                    html.Div([
+                    html.H1(["RomRaider log viewer"],style={"textAlign":"center"}),
+                    html.H5(["""Your log will display below. 
+                                Click items on the legend to remove them from the graph; 
+                                click them again to add them back to the graph."""],
+                                style={"textAlign":"center","margin":"8px"})
+                            ]),
+
+               html.Div([
+                dcc.Graph(id="Mygraph", style={'width': '99vw', 'height': '90vh'})
+                ]) 
+                
+            
+        ],
+                
+        style={'backgroundColor':colors['background']}
+        
+)         
 
 @app.callback(
     Output("Mygraph", "figure"),
     Input("upload-data", "contents"),
 )
+
 def update_graph(contents):
 
     if contents:
+
         content_type, content_string = contents.split(',')
         decoded = base64.b64decode(content_string)
         df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
@@ -111,6 +145,7 @@ def update_graph(contents):
         fig.update_yaxes(title_text="<b>Engine RPM</b>", secondary_y=True)
 
     return fig
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
