@@ -104,13 +104,10 @@ def update_graph(contents):
             secondary_y=False
         )
 
-        if df['Manifold Relative Pressure (Corrected) (psi)']:
-            fig.add_trace(
-                go.Scatter(y=df['Manifold Relative Pressure (Corrected) (psi)'], name="Boost", line=dict(color='gold')),
-                secondary_y=False
-            )
-        else:
-            pass
+        fig.add_trace(
+            go.Scatter(y=df['Manifold Relative Pressure (Corrected) (psi)'], name="Boost", line=dict(color='gold')),
+            secondary_y=False
+        )
         
         fig.add_trace(
             go.Scatter(y=df['Primary Wastegate Duty Cycle (%)'], name="WG Duty", line=dict(color='purple')),
