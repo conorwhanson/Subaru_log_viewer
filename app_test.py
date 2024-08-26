@@ -68,14 +68,16 @@ app.layout = html.Div([
         
 )         
 
+# App callback with NO initial call to avoid error
 @app.callback(
     Output("Mygraph", "figure"),
     Input("upload-data", "contents"),
     prevent_initial_call = True
 )
 
+# Function to update the graph with the CSV data
 def update_graph(contents):
-
+    
     if contents:
 
         content_type, content_string = contents.split(',')
@@ -103,12 +105,10 @@ def update_graph(contents):
             go.Scatter(y=df['Injector Duty Cycle (%)'], name="Inj Duty", line=dict(color='pink')),
             secondary_y=False
         )
-
         fig.add_trace(
             go.Scatter(y=df['Manifold Relative Pressure (Corrected) (psi)'], name="Boost", line=dict(color='gold')),
             secondary_y=False
         )
-        
         fig.add_trace(
             go.Scatter(y=df['Primary Wastegate Duty Cycle (%)'], name="WG Duty", line=dict(color='purple')),
             secondary_y=False
@@ -133,18 +133,18 @@ def update_graph(contents):
             go.Scatter(y=df['Knock Correction Advance (degrees)'], name="Knock Corr Adv", line=dict(color='grey')),
             secondary_y=False
         )
+
         ### Add Secondary Axis Trace ###
         fig.add_trace(
         go.Scatter(y=df_rpm, name="RPM", line=dict(color='red')),
         secondary_y=True
         )
 
-        # Format
+        # Format hover display and remove y axis tick labels
         fig.update_layout(hovermode="x unified")
-
         fig.layout.yaxis1.update(showticklabels=False)
 
-        # Set y-axes title
+        # Set y-axis title
         fig.update_yaxes(title_text="<b>Engine RPM</b>", secondary_y=True)
 
     return fig
