@@ -32,7 +32,7 @@ app.layout = html.Div([
                 html.Div([
                     dcc.Upload(
                     id="upload-data",
-                    children=html.Div(['Drag and drop or ', html.Strong('select'), ' a log file to graph.']),
+                    children=html.Div(['Drag and drop your log file here or ', html.Strong('select'), ' a log file to graph.']),
                     style={
                         "width": "100%",
                         "height": "60px",
