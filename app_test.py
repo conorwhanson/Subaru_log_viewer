@@ -51,7 +51,7 @@ app.layout = html.Div([
 
                     html.Div([
                     html.H1(["RomRaider log viewer"],style={"textAlign":"center"}),
-                    html.H5(["""Your log will display below. 
+                    html.H4(["""Your log will display below. 
                                 Click items on the legend to remove them from the graph; 
                                 click them again to add them back to the graph."""],
                                 style={"textAlign":"center","margin":"8px"})
