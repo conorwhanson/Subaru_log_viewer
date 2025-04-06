@@ -5,7 +5,7 @@
             "name": "Python: Dash",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/app.py",
+            "program": "${workspaceFolder}/app_test.py",
             "args": [],
             "console": "integratedTerminal"
         }
